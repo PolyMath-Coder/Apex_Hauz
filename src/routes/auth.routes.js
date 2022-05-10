@@ -1,10 +1,9 @@
 const { Router } = require('express');
+const { createUser } = require('../controllers/user.controller');
 
 const router = Router();
 
-router.get('/signup', (req, res) => {
-  res.status(200).json({ msg: 'this is the signup route...Haha' });
-});
+router.post('/signup', createUser);
 
 router.get('/signin', (req, res) => {
   res.json({ msg: 'this is the sign in route' });
