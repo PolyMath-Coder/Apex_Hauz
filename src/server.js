@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const PORT = process.env.PORT;
 const db = require('./config/db.config');
@@ -8,6 +9,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use('/api/v1', require('./routes/route'));
 
