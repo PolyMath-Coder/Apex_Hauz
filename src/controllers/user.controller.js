@@ -1,5 +1,5 @@
 const User = require('../models/user.model');
-const { generateToken } = require('../helpers/auth');
+const { generateToken } = require('../helpers/jwt');
 const bcrypt = require('bcrypt');
 const registerUser = async (req, res) => {
   const {
@@ -31,7 +31,7 @@ const registerUser = async (req, res) => {
     }
     const token = generateToken(data.email);
     const maxAge = 0.5 * 24 * 60 * 60;
-    res.cookie('sidhustle_group_10', token, {
+    res.cookie('jwt', token, {
       httpOnly: true,
       maxAge: maxAge * 1000,
     });
@@ -57,7 +57,7 @@ const signInUser = (req, res) => {
       const auth = await bcrypt.compare(password, data.hashedPassword);
       const token = generateToken(data.email);
       const maxAge = 0.5 * 24 * 60 * 60;
-      res.cookie('sidhustle_group_10', token, { maxAge: maxAge * 1000 });
+      res.cookie('jwt', token, { maxAge: maxAge * 1000 });
       if (auth) {
         return res
           .status(201)

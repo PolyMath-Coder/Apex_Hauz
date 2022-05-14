@@ -28,6 +28,10 @@ exports.userSignUpValidator = [
     .isString()
     .isLength({ min: 3 })
     .withMessage('Minimum of three characters required.'),
+  check('is_admin')
+    .trim()
+    .isString()
+    .withMessage('Input has to be either true or false'),
   (req, res, next) => {
     const error = validationResult(req);
     if (!error.isEmpty())
