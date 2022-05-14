@@ -37,3 +37,20 @@ exports.userSignUpValidator = [
     next();
   },
 ];
+
+exports.userLoginValidator = [
+  check('email')
+    .isEmail()
+    .withMessage('Kindly input a valid email.'),
+  check('password')
+    .isLength({ min: 5 })
+    .withMessage('Minimum of five characters required.'),
+  (req, res, next) => {
+    const error = validationResult(req);
+    if (!error.isEmpty())
+      return res.status(400).send({
+        error: error.array().map((item) => `${item.param} Error - ${item.msg}`),
+      });
+    next();
+  },
+];

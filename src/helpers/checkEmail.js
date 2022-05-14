@@ -6,7 +6,7 @@ const checkEmail = (req, res, next) => {
     if (data) {
       res.status(400).json({
         status: 'error',
-        message: 'Oops! A user with this email exists...',
+        message: 'Oops! A user with this email already exists...',
       });
       return;
     }

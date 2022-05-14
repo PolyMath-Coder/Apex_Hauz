@@ -41,7 +41,7 @@ const registerUser = async (req, res) => {
 
 const signInUser = (req, res) => {
   const { email, password } = req.body;
-  User.findByEmail(email, (err, data) => {
+  User.findByEmail(email, async (err, data) => {
     if (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
@@ -54,8 +54,25 @@ const signInUser = (req, res) => {
       return;
     }
     if (data) {
+      const auth = await bcrypt.compare(password, data.hashedPassword);
+      const token = generateToken(data.email);
+      const maxAge = 0.5 * 24 * 60 * 60;
+      res.cookie('sidhustle_group_10', token, { maxAge: maxAge * 1000 });
+      if (auth) {
+        return res
+          .status(201)
+          .json({ status: "you're signed in", data: { token, ...data } });
+      }
+      res
+        .status(400)
+        .json({ status: 'error', error: 'Ooops... Incorrect Password!' });
     }
+    res.status(400).json({
+      status: 'error',
+      error:
+        'Kindly check your mail and re-enter, else, use the sign up button',
+    });
   });
 };
 
-module.exports = { registerUser };
+module.exports = { registerUser, signInUser };
