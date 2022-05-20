@@ -61,7 +61,7 @@ const signInUser = (req, res) => {
       if (auth) {
         return res
           .status(201)
-          .json({ status: "you're signed in", data: { token, ...data } });
+          .json({ status: 'success', data: { token, ...data } });
       }
       res
         .status(400)

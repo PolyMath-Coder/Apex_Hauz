@@ -29,7 +29,7 @@ class Property {
           console.log('error: ', err);
           result(err, null);
         }
-        console.log('Created User:', { ...newProperty });
+        console.log('Created Property:', { ...newProperty });
         result(null, { id: res.insertId, ...newProperty });
       }
     );
@@ -65,16 +65,23 @@ class Property {
       result(null, res);
     });
   }
+  static getPropertyType(result) {
+    db.query(`SELECT * FROM property WHERE type=?`, [type], (err, res) => {
+      if (err) {
+        console.log('err', err);
+        result(null, err);
+        return;
+      }
+      console.log('property type: ', res);
+      result(null, res);
+    });
+  }
   static updateById(id, updatedProperty, result) {
     db.query(
-      `UPDATE property SET property_id = ?, status = ?, price = ?, state = ?, city = ?, address = ?, type = ?, image_url = ?  WHERE property_id = ?`,
+      `UPDATE property SET status = ?, price = ?, type = ?, image_url = ?  WHERE property_id = ?`,
       [
-        updatedProperty.id,
         updatedProperty.status,
         updatedProperty.price,
-        updatedProperty.state,
-        updatedProperty.city,
-        updatedProperty.address,
         updatedProperty.type,
         updatedProperty.image_url,
         id,

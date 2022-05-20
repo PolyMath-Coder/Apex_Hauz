@@ -58,3 +58,44 @@ exports.userLoginValidator = [
     next();
   },
 ];
+
+exports.registerAdvertValidator = [
+  check('status')
+    .trim()
+    .isString()
+    .withMessage('Has to be a string.')
+    .isLength({ min: 3 })
+    .withMessage('Minimum of four characters required.'),
+  check('price')
+    .trim()
+    .isNumeric()
+    .withMessage('Has to be a string.'),
+  check('state')
+    .isLength({ min: 3 })
+    .isString()
+    .withMessage('Minimum of three characters required.'),
+  check('city')
+    .isLength({ min: 3 })
+    .isString()
+    .withMessage('Minimum of three characters required.'),
+  check('address')
+    .trim()
+    .isString()
+    .isLength({ min: 3 })
+    .withMessage('Minimum of three characters required.'),
+  check('type')
+    .trim()
+    .isString()
+    .withMessage('Input has to be either duplex, bungalow or self-contain'),
+  check('image_url')
+    .trim()
+    .isString(),
+  (req, res, next) => {
+    const error = validationResult(req);
+    if (!error.isEmpty())
+      return res.status(400).send({
+        error: error.array().map((item) => `${item.param} Error - ${item.msg}`),
+      });
+    next();
+  },
+];
