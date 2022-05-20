@@ -1,7 +1,7 @@
 {
   "name": "capstone2_apexhauz",
   "version": "1.0.0",
-  "description": "",
+  "description": "SideHustle Capstone II Project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -38,7 +38,7 @@ const authenticateUser = (req, res, next) => {
 };
 
 const adminAuthorization = (req, res, next) => {
-  if (!req.user || req.user.is_admin !== 'true') {
+  if (!req.user || req.user.is_admin !== 1) {
     return res
       .status(400)
       .json({ status: 'error', message: "You're not allowed here..." });
