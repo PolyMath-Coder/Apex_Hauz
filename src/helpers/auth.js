@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/user.model');
 const AppError = require('../helpers/error');
 const { header } = require('express/lib/request');
+require('dotenv').config();
+const secretKey = process.env.JWT_KEY_SECRET;
 
 const authenticateUser = (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (token) {
-    jwt.verify(token, 'sidehustle_capstone', async (err, decodedToken) => {
+    jwt.verify(token, secretKey, async (err, decodedToken) => {
       if (err) {
         return res.send({ msg: 'Unauthorized...' });
       }
